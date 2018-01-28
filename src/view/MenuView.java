@@ -13,7 +13,6 @@ public class MenuView {
         mainMenu.put(1, "Start game");
         mainMenu.put(2, "Create question");
         mainMenu.put(3, "Display highscore");
-        mainMenu.put(0, "Exit");
         return mainMenu;
     }
 
@@ -27,9 +26,10 @@ public class MenuView {
     }
 
     public void dispalyMenu() {
-        System.out.println("---QUIZMANIA---");
+        displayText("---QUIZMANIA---");
         for (Integer index : mainMenu.keySet()) {
-            System.out.printf("%d. %s", index, mainMenu.get(index));
+            System.out.printf("%d. %s\n", index, mainMenu.get(index));
         }
+        System.out.println("0. Exit");
     }
 }
