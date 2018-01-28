@@ -27,6 +27,9 @@ public class MenuView {
     }
 
     public void dispalyMenu() {
-
+        System.out.println("---QUIZMANIA---");
+        for (Integer index : mainMenu.keySet()) {
+            System.out.printf("%d. %s", index, mainMenu.get(index));
+        }
     }
 }
