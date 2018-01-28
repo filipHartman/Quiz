@@ -5,8 +5,8 @@ import java.util.HashMap;
 public class QuestionModel {
     private String questionType;
     private String questionContent;
-    private HashMap<char, String> answers;
-    private char correctAnswerIndex;
+    private HashMap<String, String> answers;
+    private String correctAnswerIndex;
 
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
@@ -24,19 +24,19 @@ public class QuestionModel {
         this.questionContent = questionContent;
     }
 
-    public HashMap<char, String> getAnswers() {
+    public HashMap<String, String> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(HashMap<char, String> answers) {
+    public void setAnswers(HashMap<String, String> answers) {
         this.answers = answers;
     }
 
-    public char getCorrectAnswerIndex() {
+    public String getCorrectAnswerIndex() {
         return correctAnswerIndex;
     }
 
-    public void setCorrectAnswerIndex(char correctAnswerIndex) {
+    public void setCorrectAnswerIndex(String correctAnswerIndex) {
         this.correctAnswerIndex = correctAnswerIndex;
     }
 }
