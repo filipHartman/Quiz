@@ -1,14 +1,12 @@
 package controller;
 
+import view.MenuView;
+
 public class MenuController {
     private MenuView menuView = new MenuView();
 
     public void startGame() {
-
-    }
-
-    public void displayMenu() {
-
+        menuView.dispalyMenu();
     }
 
     public void handleUserOption(String option) {
