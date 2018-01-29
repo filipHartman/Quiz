@@ -7,6 +7,7 @@ public class MenuController {
 
     public void startGame() {
         menuView.dispalyMenu();
+        String option = menuView.getUserInput("\nChoose option: ");
     }
 
     public void handleUserOption(String option) {
