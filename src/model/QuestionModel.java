@@ -8,6 +8,13 @@ public class QuestionModel {
     private HashMap<String, String> answers;
     private String correctAnswerIndex;
 
+    public QuestionModel(String questionType, String questionContent, HashMap<String, String> answers, String correctAnswerIndex) {
+        this.questionType = questionType;
+        this.questionContent = questionContent;
+        this.answers = answers;
+        this.correctAnswerIndex = correctAnswerIndex;
+    }
+
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
     }
