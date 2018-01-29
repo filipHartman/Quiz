@@ -1,7 +1,6 @@
 package view;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 
 public class MenuView extends View{
