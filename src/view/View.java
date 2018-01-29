@@ -8,7 +8,7 @@ public class View {
 
     public String getUserInput(String request) {
         System.out.print(request);
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     public void displayText(String text) {
@@ -34,5 +34,9 @@ public class View {
 
     public void clearConsole () {
         displayText(ASCII_CLEAR_CONSOLE_CODE);
+    }
+
+    public void waitForEnter() {
+         getUserInput("Press enter to continue...");
     }
 }
