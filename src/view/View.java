@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class View {
     protected Scanner scanner = new Scanner(System.in);
+    private String ASCII_CLEAR_CONSOLE_CODE = "\033[H\033[2J";
 
     public String getUserInput(String request) {
         System.out.print(request);
@@ -29,5 +30,9 @@ public class View {
         {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public void clearConsole () {
+        displayText(ASCII_CLEAR_CONSOLE_CODE);
     }
 }
