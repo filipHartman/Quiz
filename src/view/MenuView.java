@@ -17,7 +17,7 @@ public class MenuView extends View{
         return mainMenu;
     }
 
-    public void dispalyMenu() {
+    public void displayMenu() {
         clearConsole();
         displayText("---QUIZMANIA---\n");
         for (Integer index : mainMenu.keySet()) {
