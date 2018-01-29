@@ -18,4 +18,16 @@ public class View {
     public void closeScanner() {
         scanner.close();
     }
+
+    public void pauseGame () {
+        int pauseTime = 1000;
+        try
+        {
+            Thread.sleep(pauseTime);
+        }
+        catch(InterruptedException e)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
