@@ -32,4 +32,8 @@ public class MenuView {
         }
         System.out.println("0. Exit");
     }
+
+    public void closeScanner() {
+        scanner.close();
+    }
 }
