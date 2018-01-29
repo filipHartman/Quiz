@@ -12,6 +12,8 @@ public class MenuView extends View{
         mainMenu.put(1, "Start game");
         mainMenu.put(2, "Create question");
         mainMenu.put(3, "Display highscore");
+        mainMenu.put(4, "Update question");
+        mainMenu.put(5, "Delete question");
         return mainMenu;
     }
 
