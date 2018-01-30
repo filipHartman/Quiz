@@ -2,11 +2,14 @@ package controller;
 
 import model.QuestionModel;
 import view.MenuView;
+import dao.Dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MenuController {
     private MenuView menuView = new MenuView();
+    private Dao dao = new Dao();
 
     public void startGame() {
         menuView.displayMenu();
@@ -21,7 +24,17 @@ public class MenuController {
         switch(option) {
             case "2":
                 createQuestion();
+                break;
+            case "3":
+                createCategory();
+                break;
         }
+    }
+
+    private void createCategory() {
+       dao.connectToDatabase();
+       ArrayList<String> types = dao.importQuestionTypes();
+       for(String type : types) menuView.displayText(type);
     }
 
     private void createQuestion() {
