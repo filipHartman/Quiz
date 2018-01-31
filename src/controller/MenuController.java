@@ -4,7 +4,6 @@ import model.QuestionModel;
 import view.MenuView;
 import dao.Dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MenuController {
@@ -20,21 +19,21 @@ public class MenuController {
     }
 
     public void handleUserOption(String option) {
-
+        menuView.clearConsole();
         switch(option) {
             case "2":
                 createQuestion();
                 break;
             case "3":
-                createCategory();
+                createQuestionType();
                 break;
         }
     }
 
-    private void createCategory() {
+    private void createQuestionType() {
        dao.connectToDatabase();
-       ArrayList<String> types = dao.importQuestionTypes();
-       for(String type : types) menuView.displayText(type);
+       HashMap<Integer, String> types = dao.importQuestionTypes();
+       for(Integer typeId : types.keySet()) System.out.printf("%d. %s\n", typeId, types.get(typeId));
     }
 
     private void createQuestion() {
