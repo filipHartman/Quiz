@@ -11,7 +11,7 @@ public class MenuView extends View{
         HashMap<Integer,String> mainMenu = new HashMap<Integer, String>();
         mainMenu.put(1, "Start game");
         mainMenu.put(2, "Create question");
-        mainMenu.put(3, "Create category");
+        mainMenu.put(3, "Create question type");
         mainMenu.put(4, "Display highscore");
         mainMenu.put(5, "Update question");
         mainMenu.put(6, "Delete question");
