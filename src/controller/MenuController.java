@@ -5,6 +5,7 @@ import view.MenuView;
 import dao.Dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class MenuController {
@@ -21,7 +22,7 @@ public class MenuController {
 
     public void handleUserOption(String option) {
         menuView.clearConsole();
-        switch(option) {
+        switch (option) {
             case "1":
                 startQuiz();
                 break;
@@ -37,11 +38,27 @@ public class MenuController {
     private void startQuiz() {
         dao.connectToDatabase();
         ArrayList<QuestionModel> randomQuestionsForQuiz = getRandomQuestions();
-        int points = 0;
-        for (QuestionModel question : randomQuestionsForQuiz) {
-            menuView.displayQuestion(question);
-        }
+        int score = getScoreFromUsersAnswers(randomQuestionsForQuiz);
+        menuView.displayText(String.format("Your score is: %d", score));
+        menuView.clearConsole();
+    }
 
+
+    private int getScoreFromUsersAnswers(ArrayList<QuestionModel> randomQuestionsForQuiz) {
+        int score = 0;
+        int numberOfQuestion = 1;
+        for (QuestionModel question : randomQuestionsForQuiz) {
+            menuView.displayText(String.format("QUESTION #%d\n", numberOfQuestion++));
+            menuView.displayText(String.format("Score: %d\n", score));
+            score += updateScoreAfterUserAnswer(question);
+            menuView.waitForEnter();
+        }
+        return score;
+    }
+
+    private boolean checkAnswerFormat(String userAnswer) {
+        String[] correctAnswers = {"A", "B", "C", "D"};
+        return Arrays.asList(correctAnswers).contains(userAnswer);
     }
 
     private ArrayList<QuestionModel> getRandomQuestions() {
@@ -49,7 +66,7 @@ public class MenuController {
 
         ArrayList<Integer> randomQuestionIds = generateRandomIds(allQuestions);
         ArrayList<QuestionModel> randomQuestionsForQuiz = new ArrayList<>();
-        for(int id: randomQuestionIds) {
+        for (int id : randomQuestionIds) {
             QuestionModel question = allQuestions.get(id);
             randomQuestionsForQuiz.add(question);
         }
@@ -61,9 +78,9 @@ public class MenuController {
         int numberOfQuestions = allQuestions.size();
         int numberOfDraws = 3;
         for (int i = 0; i < numberOfDraws; i++) {
-            int id = (int)(Math.random() * numberOfQuestions);
-            while(drawnIds.contains(id)){
-                id = (int)(Math.random() * numberOfQuestions);
+            int id = (int) (Math.random() * numberOfQuestions);
+            while (drawnIds.contains(id)) {
+                id = (int) (Math.random() * numberOfQuestions);
             }
             drawnIds.add(id);
         }
@@ -76,7 +93,7 @@ public class MenuController {
         String typeName = menuView.getUserInput("Enter name of new question type: ");
         dao.exportNewTypeToDb(typeName);
         HashMap<Integer, String> types = dao.importQuestionTypes();
-        for(Integer typeId : types.keySet()) System.out.printf("%d. %s\n", typeId, types.get(typeId));
+        for (Integer typeId : types.keySet()) System.out.printf("%d. %s\n", typeId, types.get(typeId));
     }
 
     private void createQuestion() {
@@ -98,5 +115,27 @@ public class MenuController {
 
     public void displayHighscore() {
 
+    }
+
+
+    private int updateScoreAfterUserAnswer(QuestionModel question) {
+        menuView.displayQuestion(question);
+        boolean isAnswerFormatCorrect = false;
+        String correctAnswerIndex = question.getCorrectAnswerIndex();
+        while (!(isAnswerFormatCorrect)) {
+            String userAnswerIndex = menuView.getUserInput("Answer: ");
+            userAnswerIndex = userAnswerIndex.toUpperCase();
+            if (checkAnswerFormat(userAnswerIndex)) {
+                isAnswerFormatCorrect = true;
+                if (userAnswerIndex.equals(correctAnswerIndex)) {
+                    menuView.displayText("Excellent!!!");
+                    return 1;
+                }
+            } else {
+                menuView.displayText("Wrong answer format! Try again!");
+            }
+        }
+        menuView.displayText("Wrong answer!!! Correct answer is: " + correctAnswerIndex);
+        return 0;
     }
 }
