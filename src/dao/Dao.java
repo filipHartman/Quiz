@@ -57,8 +57,8 @@ public class Dao {
         }
     }
 
-    public ArrayList<String> importAllQuestionsFromDb() {
-        ArrayList<String> allQuestion = new ArrayList<>();
+    public ArrayList<QuestionModel> importAllQuestionsFromDb() {
+        ArrayList<QuestionModel> allQuestion = new ArrayList<>();
         PreparedStatement ps;
         String query = "SELECT * FROM questions";
         try {
@@ -66,7 +66,7 @@ public class Dao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String question = createQuestionModel(rs);
+                QuestionModel question = createQuestionModel(rs);
                 allQuestion.add(question);
             }
 
@@ -77,9 +77,22 @@ public class Dao {
         return allQuestion;
     }
 
-    private String createQuestionModel(ResultSet rs) throws SQLException {
+    private QuestionModel createQuestionModel(ResultSet rs) throws SQLException {
         String questionType = getQuestionType(rs.getInt("id_type"));
-        return questionType;
+        String questionContent = rs.getString("question_content");
+        HashMap<String, String> answers = getAnswersOfQuestion(rs);
+        String correctAnswer = rs.getString("correct_answer");
+        QuestionModel question = new QuestionModel(questionType, questionContent, answers, correctAnswer);
+        return question;
+    }
+
+    private HashMap<String,String> getAnswersOfQuestion(ResultSet rs) throws SQLException {
+        HashMap<String, String> answers = new HashMap<>();
+        answers.put("A", rs.getString("answer_a"));
+        answers.put("B", rs.getString("answer_b"));
+        answers.put("C", rs.getString("answer_c"));
+        answers.put("D", rs.getString("answer_d"));
+        return answers;
     }
 
     private String getQuestionType(int id_type) {
