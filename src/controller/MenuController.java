@@ -37,9 +37,11 @@ public class MenuController {
     private void startQuiz() {
         dao.connectToDatabase();
         ArrayList<QuestionModel> randomQuestionsForQuiz = getRandomQuestions();
+        int points = 0;
         for (QuestionModel question : randomQuestionsForQuiz) {
-            System.out.println(question.getQuestionContent());
+            menuView.displayQuestion(question);
         }
+
     }
 
     private ArrayList<QuestionModel> getRandomQuestions() {
