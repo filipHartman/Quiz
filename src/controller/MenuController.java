@@ -36,14 +36,22 @@ public class MenuController {
 
     private void startQuiz() {
         dao.connectToDatabase();
-        ArrayList<QuestionModel> allQuestions = dao.importAllQuestionsFromDb();
-        ArrayList<Integer> randomQuestionIds = generateRandomIds(allQuestions);
-        for (QuestionModel question : allQuestions) {
+        ArrayList<QuestionModel> randomQuestionsForQuiz = getRandomQuestions();
+        for (QuestionModel question : randomQuestionsForQuiz) {
             System.out.println(question.getQuestionContent());
         }
+    }
+
+    private ArrayList<QuestionModel> getRandomQuestions() {
+        ArrayList<QuestionModel> allQuestions = dao.importAllQuestionsFromDb();
+
+        ArrayList<Integer> randomQuestionIds = generateRandomIds(allQuestions);
+        ArrayList<QuestionModel> randomQuestionsForQuiz = new ArrayList<>();
         for(int id: randomQuestionIds) {
-            System.out.println(id);
+            QuestionModel question = allQuestions.get(id);
+            randomQuestionsForQuiz.add(question);
         }
+        return randomQuestionsForQuiz;
     }
 
     private ArrayList<Integer> generateRandomIds(ArrayList<QuestionModel> allQuestions) {
