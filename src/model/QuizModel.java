@@ -3,17 +3,17 @@ package model;
 import java.util.ArrayList;
 
 public class QuizModel {
-    private ArrayList<QuizModel> questions;
+    private ArrayList<QuestionModel> questions;
 
-    public QuizModel(ArrayList<QuizModel> questions) {
+    public QuizModel(ArrayList<QuestionModel> questions) {
         this.questions = questions;
     }
 
-    public void setQuestions(ArrayList<QuizModel> questions) {
+    public void setQuestions(ArrayList<QuestionModel> questions) {
         this.questions = questions;
     }
 
-    public ArrayList<QuizModel> getQuestions() {
+    public ArrayList<QuestionModel> getQuestions() {
         return questions;
     }
 }
