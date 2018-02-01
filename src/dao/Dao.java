@@ -1,9 +1,11 @@
 package dao;
 
+import model.QuestionModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Dao {
@@ -20,7 +22,7 @@ public class Dao {
 
     public HashMap<Integer, String> importQuestionTypes() {
         HashMap<Integer, String> typeNamesCollection = new HashMap<Integer, String>();
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         String query = "SELECT * FROM types";
         try {
             ps = connection.prepareStatement(query);
@@ -53,5 +55,46 @@ public class Dao {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.out.println("Type insertion failed");
         }
+    }
+
+    public ArrayList<String> importAllQuestionsFromDb() {
+        ArrayList<String> allQuestion = new ArrayList<>();
+        PreparedStatement ps;
+        String query = "SELECT * FROM questions";
+        try {
+            ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String question = createQuestionModel(rs);
+                allQuestion.add(question);
+            }
+
+        } catch (SQLException e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return allQuestion;
+    }
+
+    private String createQuestionModel(ResultSet rs) throws SQLException {
+        String questionType = getQuestionType(rs.getInt("id_type"));
+        return questionType;
+    }
+
+    private String getQuestionType(int id_type) {
+        String questionType = null;
+        PreparedStatement ps;
+        String query = "SELECT type_name FROM types WHERE id_type = ?";
+        try{
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id_type);
+            ResultSet rs = ps.executeQuery();
+            questionType = rs.getString("type_name");
+        }catch (SQLException e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return questionType;
     }
 }
