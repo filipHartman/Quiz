@@ -31,10 +31,27 @@ public class Dao {
                 Integer typeId = rs.getInt("id_type");
                 typeNamesCollection.put(typeId, typeName);
             }
+            ps.close();
+            rs.close();
         } catch (SQLException e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+
         return typeNamesCollection;
+    }
+
+    public void exportNewTypeToDb (String typeName) {
+        PreparedStatement ps;
+        String query = "INSERT INTO types(type_name) values (?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, typeName);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.out.println("Type insertion failed");
+        }
     }
 }
