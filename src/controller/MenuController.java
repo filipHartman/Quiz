@@ -4,6 +4,7 @@ import model.QuestionModel;
 import view.MenuView;
 import dao.Dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MenuController {
@@ -21,6 +22,9 @@ public class MenuController {
     public void handleUserOption(String option) {
         menuView.clearConsole();
         switch(option) {
+            case "1":
+                startQuiz();
+                break;
             case "2":
                 createQuestion();
                 break;
@@ -30,10 +34,39 @@ public class MenuController {
         }
     }
 
+    private void startQuiz() {
+        dao.connectToDatabase();
+        ArrayList<QuestionModel> allQuestions = dao.importAllQuestionsFromDb();
+        ArrayList<Integer> randomQuestionIds = generateRandomIds(allQuestions);
+        for (QuestionModel question : allQuestions) {
+            System.out.println(question.getQuestionContent());
+        }
+        for(int id: randomQuestionIds) {
+            System.out.println(id);
+        }
+    }
+
+    private ArrayList<Integer> generateRandomIds(ArrayList<QuestionModel> allQuestions) {
+        ArrayList<Integer> drawnIds = new ArrayList<>();
+        int numberOfQuestions = allQuestions.size();
+        int numberOfDraws = 3;
+        for (int i = 0; i < numberOfDraws; i++) {
+            int id = (int)(Math.random() * numberOfQuestions);
+            while(drawnIds.contains(id)){
+                id = (int)(Math.random() * numberOfQuestions);
+            }
+            drawnIds.add(id);
+        }
+        return drawnIds;
+    }
+
     private void createQuestionType() {
-       dao.connectToDatabase();
-       HashMap<Integer, String> types = dao.importQuestionTypes();
-       for(Integer typeId : types.keySet()) System.out.printf("%d. %s\n", typeId, types.get(typeId));
+        dao.connectToDatabase();
+
+        String typeName = menuView.getUserInput("Enter name of new question type: ");
+        dao.exportNewTypeToDb(typeName);
+        HashMap<Integer, String> types = dao.importQuestionTypes();
+        for(Integer typeId : types.keySet()) System.out.printf("%d. %s\n", typeId, types.get(typeId));
     }
 
     private void createQuestion() {
