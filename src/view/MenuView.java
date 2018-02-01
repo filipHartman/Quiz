@@ -1,5 +1,7 @@
 package view;
 
+import model.QuestionModel;
+
 import java.util.HashMap;
 
 
@@ -25,5 +27,21 @@ public class MenuView extends View{
             System.out.printf("%d. %s\n", index, mainMenu.get(index));
         }
         System.out.println("0. Exit");
+    }
+
+    public void displayQuestion(QuestionModel question) {
+        String questionContent = question.getQuestionContent();
+        HashMap<String, String> answers = question.getAnswers();
+        String answersToDisplay = convertAnswerMapToString(answers);
+        displayText(questionContent);
+        displayText(answersToDisplay);
+    }
+
+    private String convertAnswerMapToString(HashMap<String, String> answers) {
+        StringBuilder sb = new StringBuilder();
+        for (String answer_index : answers.keySet()) {
+            sb.append(String.format("%s) %s\n", answer_index, answers.get(answer_index)));
+        }
+        return sb.toString();
     }
 }
